@@ -1,9 +1,11 @@
 package thesugarchris.nitro;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import thesugarchris.nitro.commands.Eco;
+import thesugarchris.nitro.commands.Mod;
 import thesugarchris.nitro.commands.Nickname;
 import thesugarchris.nitro.events.Chat;
 import thesugarchris.nitro.events.Join;
@@ -19,6 +21,10 @@ public final class Nitro extends JavaPlugin {
 
     public static Plugin getPlugin() {
         return plugin;
+    }
+
+    public static Server getSrv() {
+        return getPlugin().getServer();
     }
 
     public static Database getDatabase() {
@@ -42,6 +48,7 @@ public final class Nitro extends JavaPlugin {
 
         CommandRegistry commandRegistry = new CommandRegistry(this);
         commandRegistry.registerCommands(new Eco());
+        commandRegistry.registerCommands(new Mod());
         commandRegistry.registerCommands(new Nickname());
 
         commandRegistry.getRegisteredCommands();

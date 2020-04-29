@@ -8,13 +8,25 @@ import thesugarchris.nitro.utils.Text;
 
 public class Eco {
     @RegisterAsCommand(command = "balance <player?>")
-    public static void onBalance(Player p) {
-        Double playerBalance = Economy.getPlayerBalance(p);
+    public void onBalance(Player p, String[] args) {
+        Player playerToCheck = p;
+        if (args.length == 1) {
+            if (!p.hasPermission("eco.balance.others")) {
+                p.sendMessage(Text.noPermMessage("check the balance of other players."));
+                return;
+            }
+            playerToCheck = Nitro.getPlugin().getServer().getPlayer(args[0]);
+            if (playerToCheck == null) {
+                p.sendMessage(Text.createMsg("&cPlayer is offline"));
+                return;
+            }
+        }
+        Double playerBalance = Economy.getPlayerBalance(playerToCheck);
         p.sendMessage(Text.createMsg("&aYour current balance is: &2$%,.0f", playerBalance));
     }
 
     @RegisterAsCommand(command = "eco set <player> <value>")
-    public static void onEcoSet(Player p, String[] args) {
+    public void onEcoSet(Player p, String[] args) {
         Player targetPlayer = Nitro.getPlugin().getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
             p.sendMessage(Text.createMsg("&cCannot send money to offline player"));
@@ -28,7 +40,7 @@ public class Eco {
     }
 
     @RegisterAsCommand(command = "pay <player> <amount>")
-    public static void onPay(Player p, String[] args) {
+    public void onPay(Player p, String[] args) {
         Player targetPlayer = Nitro.getPlugin().getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
             p.sendMessage(Text.createMsg("&cCannot send money to offline player"));
