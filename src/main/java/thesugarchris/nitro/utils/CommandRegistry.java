@@ -6,12 +6,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import thesugarchris.nitro.Nitro;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandRegistry implements CommandExecutor {
     private final Plugin plugin;
@@ -21,22 +24,29 @@ public class CommandRegistry implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    // TODO: parse this syntax -> /cmd <arg> <arg2?>
+    private final Pattern cmdMatch = Pattern.compile("(\\w|\\s)+(?=<)?");
 
     public void registerCommands(Object object) {
         for (Method method : object.getClass().getMethods()) {
             RegisterAsCommand annotation = method.getAnnotation(RegisterAsCommand.class);
 
             if (annotation != null) {
-                // Attempt to register the base of a command e.g. "skyblock" is the base of "/skyblock create"
-                String base = annotation.command().split(" ")[0].substring(1);
-                PluginCommand basePluginCommand = plugin.getServer().getPluginCommand(base);
+                Nitro.log(Text.createMsg("&3Attempting to register command: &1%s", annotation.command()));
+                Matcher matcher = cmdMatch.matcher(annotation.command());
+                if (!matcher.find()) return;
+                String base = matcher.group().trim();
+
+                String[] commandPieces = annotation.command().split(" ");
+
+                PluginCommand basePluginCommand = plugin.getServer().getPluginCommand(commandPieces[0]);
+
+                Integer params = commandPieces.length - base.split(" ").length;
 
                 if (basePluginCommand == null)
                     throw new RuntimeException(String.format("Unable to register command base '%s'. Did you put it in plugin.yml?", base));
                 else {
                     basePluginCommand.setExecutor(this);
-                    registeredCommandTable.put(annotation.command().substring(1), new RegisteredCommand(method, object, annotation));
+                    registeredCommandTable.put(base, new RegisteredCommand(method, object, annotation, params));
                 }
             }
         }
@@ -82,7 +92,7 @@ public class CommandRegistry implements CommandExecutor {
                        The idea is to get rid of parts of arguments that belongs to the usage of the command
                        And leave only the parameters that the method should receive (which I called "actual parameters")
                     */
-                    String[] actualParams = Arrays.copyOfRange(args, annotation.command().split(" ").length - 1, args.length);
+                    String[] actualParams = Arrays.copyOfRange(args, usage.split(" ").length - 1, args.length);
 
                     // check and handle exceptions
 
@@ -99,18 +109,18 @@ public class CommandRegistry implements CommandExecutor {
                     }
 
                     // check whether user has entered wrong number of parameters
-                    if (actualParams.length != annotation.parameters() && !annotation.overrideParameterLimit()) {
-                        if (actualParams.length > annotation.parameters())
+                    Nitro.log(Text.createMsg("&3" + Text.stringFromArray(actualParams)));
+                    Nitro.log(Text.createMsg("&3Expected params %d, received %d", wrapper.params, actualParams.length));
+                    if (actualParams.length != wrapper.params) {
+                        if (actualParams.length > wrapper.params)
                             sender.sendMessage(Text.createMsg("&cToo many parameters provided"));
-                        else if (actualParams.length < annotation.parameters())
-                            sender.sendMessage(Text.createMsg("&cToo few parameters provided"));
+                        else sender.sendMessage(Text.createMsg("&cToo few parameters provided"));
                         return true;
                     }
 
                     // user is eligible to execute the command. let's go
                     try {
                         wrapper.method.invoke(wrapper.instance, sender, actualParams);
-                        return true;
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         sender.sendMessage(Text.createMsg("&cSystem error occurred"));
                         e.printStackTrace();
@@ -132,11 +142,17 @@ public class CommandRegistry implements CommandExecutor {
         private final Method method;
         private final RegisterAsCommand annotation;
 
-        RegisteredCommand(Method method, Object instance, RegisterAsCommand annotation) {
+        private final Integer params;
+
+        RegisteredCommand(Method method, Object instance, RegisterAsCommand annotation, Integer params) {
             this.method = method;
             this.instance = instance;
             this.annotation = annotation;
+            this.params = params;
         }
     }
 
+    public void getRegisteredCommands() {
+        Nitro.log(Text.createMsg("&5" + Text.stringFromArray(registeredCommandTable.keySet())));
+    }
 }

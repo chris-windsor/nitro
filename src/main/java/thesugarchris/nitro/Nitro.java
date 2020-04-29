@@ -25,7 +25,7 @@ public final class Nitro extends JavaPlugin {
         return database;
     }
 
-    public static void lgm(String msg) {
+    public static void log(String msg) {
         Bukkit.getConsoleSender().sendMessage("[Nitro] " + msg);
     }
 
@@ -43,6 +43,8 @@ public final class Nitro extends JavaPlugin {
         CommandRegistry commandRegistry = new CommandRegistry(this);
         commandRegistry.registerCommands(new Eco());
         commandRegistry.registerCommands(new Nickname());
+
+        commandRegistry.getRegisteredCommands();
 
         try {
             Economy.loadBalances();

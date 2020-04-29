@@ -83,7 +83,7 @@ public class Database {
 
     private void setup() {
         // TODO: run mysql migration scripts
-        Nitro.lgm("Successfully setup initial tables...");
+        Nitro.log("Successfully setup initial tables...");
     }
 
     public ResultSet query(String query) {

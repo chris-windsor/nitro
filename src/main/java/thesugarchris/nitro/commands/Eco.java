@@ -7,17 +7,18 @@ import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
 
 public class Eco {
-    @RegisterAsCommand(command = "/balance")
+    @RegisterAsCommand(command = "balance <player?>")
     public static void onBalance(Player p) {
         Double playerBalance = Economy.getPlayerBalance(p);
         p.sendMessage(Text.createMsg("&aYour current balance is: &2$%,.0f", playerBalance));
     }
 
-    @RegisterAsCommand(command = "/eco set", parameters = 2)
+    @RegisterAsCommand(command = "eco set <player> <value>")
     public static void onEcoSet(Player p, String[] args) {
         Player targetPlayer = Nitro.getPlugin().getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
             p.sendMessage(Text.createMsg("&cCannot send money to offline player"));
+            return;
         }
 
         Double amount = Double.valueOf(args[1]);
@@ -26,11 +27,12 @@ public class Eco {
         p.sendMessage(Text.createMsg("&aSet %s&a balance to: &2$%,.0f", targetPlayer.getDisplayName(), amount));
     }
 
-    @RegisterAsCommand(command = "/pay", parameters = 2)
+    @RegisterAsCommand(command = "pay <player> <amount>")
     public static void onPay(Player p, String[] args) {
         Player targetPlayer = Nitro.getPlugin().getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
             p.sendMessage(Text.createMsg("&cCannot send money to offline player"));
+            return;
         }
 
         Double amount = Double.valueOf(args[1]);

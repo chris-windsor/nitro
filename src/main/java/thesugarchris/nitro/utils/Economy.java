@@ -38,7 +38,7 @@ public class Economy {
 
     public static void setPlayerBalance(Player p, Double val) {
         balances.replace(p.getUniqueId(), val);
-        Nitro.getDatabase().update(String.format("INSERT INTO player_data (player, balance) VALUES ('%s', %,.0f) ON DUPLICATE KEY UPDATE balance = %,.0f", p.getUniqueId(), val, val));
+        Nitro.getDatabase().update(String.format("INSERT INTO player_data (player, balance) VALUES ('%s', %.0f) ON DUPLICATE KEY UPDATE balance = %.0f", p.getUniqueId(), val, val));
     }
 
     public static Double addToPlayerBalance(Player p, Double val) {

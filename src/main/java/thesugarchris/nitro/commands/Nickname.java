@@ -6,14 +6,15 @@ import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
 
 public class Nickname {
-    @RegisterAsCommand(command = "/nick", parameters = 1)
+    @RegisterAsCommand(command = "nick <nickname>")
     public void onNick(Player p, String[] args) {
-        ChatController.setNickname(p, args[0]);
         int nickLength = Text.getLengthWithoutColors(args[0]);
-        if (nickLength > 24) {
-            p.sendMessage(Text.createMsg("&cSorry but the max length of nicknames is 24"));
+        int maxNickLength = 24;
+        if (nickLength > maxNickLength) {
+            p.sendMessage(Text.createMsg("&cSorry but the max length of nicknames is %d", maxNickLength));
             return;
         }
-        p.sendMessage("Your nickname has been changed to: " + Text.createMsg(args[0]));
+        ChatController.setNickname(p, args[0]);
+        p.sendMessage(Text.createMsg("&aYour nickname has been changed to:&r %s", args[0]));
     }
 }
