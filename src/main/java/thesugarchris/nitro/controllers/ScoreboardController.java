@@ -1,10 +1,11 @@
-package thesugarchris.nitro.utils;
+package thesugarchris.nitro.controllers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 import thesugarchris.nitro.Nitro;
+import thesugarchris.nitro.utils.Text;
 
 public class ScoreboardController {
     public static void updatePlayer(Player p) {
@@ -20,7 +21,7 @@ public class ScoreboardController {
 
         Team moneyCounter = scoreboard.registerNewTeam("moneyCounter");
         moneyCounter.addEntry(ChatColor.RED + "" + ChatColor.WHITE);
-        moneyCounter.setPrefix(Text.createMsg("&7» &a$%,.0f", Economy.getPlayerBalance(p)));
+        moneyCounter.setPrefix(Text.createMsg("&7» &a$%s", Text.formatMoney(EconomyController.getPlayerBalance(p))));
         obj.getScore(ChatColor.RED + "" + ChatColor.WHITE).setScore(13);
 
         p.setScoreboard(scoreboard);

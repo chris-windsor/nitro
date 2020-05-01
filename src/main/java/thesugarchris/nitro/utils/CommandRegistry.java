@@ -153,8 +153,4 @@ public class CommandRegistry implements CommandExecutor {
             this.minParams = params - optParams;
         }
     }
-
-    public void getRegisteredCommands() {
-        Nitro.log(Text.createMsg("&5%s", ArrayUtils.joinValues(registeredCommandTable.keySet(), ", ")));
-    }
 }

@@ -7,4 +7,6 @@ commands:
   eco:
   pay:
   nick:
+  mute:
+  kick:
   ban:

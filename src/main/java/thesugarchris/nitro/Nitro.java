@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import thesugarchris.nitro.commands.Eco;
 import thesugarchris.nitro.commands.Mod;
 import thesugarchris.nitro.commands.Nickname;
+import thesugarchris.nitro.controllers.*;
 import thesugarchris.nitro.events.Chat;
 import thesugarchris.nitro.events.Join;
 import thesugarchris.nitro.events.Leave;
@@ -51,11 +52,8 @@ public final class Nitro extends JavaPlugin {
         commandRegistry.registerCommands(new Mod());
         commandRegistry.registerCommands(new Nickname());
 
-        commandRegistry.getRegisteredCommands();
-
         try {
-            Economy.loadBalances();
-            ChatController.loadNicknames();
+            PlayerDataController.loadData();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

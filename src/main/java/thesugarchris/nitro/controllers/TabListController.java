@@ -1,7 +1,8 @@
-package thesugarchris.nitro.utils;
+package thesugarchris.nitro.controllers;
 
 import org.bukkit.entity.Player;
 import thesugarchris.nitro.Nitro;
+import thesugarchris.nitro.utils.Text;
 
 public class TabListController {
     public static void updatePlayer(Player p) {
