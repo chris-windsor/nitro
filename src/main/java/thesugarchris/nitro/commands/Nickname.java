@@ -21,6 +21,7 @@ public class Nickname {
             targetPlayer = Bukkit.getPlayer(args[0]);
             if (targetPlayer == null) {
                 p.sendMessage(Text.createMsg("&cCannot change nickname of offline player"));
+                return;
             }
         }
 
@@ -30,6 +31,10 @@ public class Nickname {
 
         if (p.hasPermission("chat.usecolors") && !p.hasPermission("chat.usedecoration")) {
             nickname = nickname.replaceAll("(?i)&[K-O]", "");
+        }
+
+        if (nickname.length() == 2 && nickname.replaceAll("(?i)&[0-9A-FK-OR]", "").length() == 0) {
+            nickname = nickname + targetPlayer.getName();
         }
 
         int nickLength = Text.getLengthWithoutColors(nickname);
@@ -43,7 +48,7 @@ public class Nickname {
         ChatController.setNickname(targetPlayer, nickname);
         targetPlayer.sendMessage(Text.createMsg("&aYour nickname has been changed to:&r %s", nickname));
         if (args.length == 2) {
-            p.sendMessage(Text.createMsg("&aChanged %s &anickname to:&r %s", targetPlayer.getDisplayName(), nickname));
+            p.sendMessage(Text.createMsg("&aChanged %s &anickname to:&r %s", targetPlayer.getName(), nickname));
         }
     }
 }

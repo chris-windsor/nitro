@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import thesugarchris.nitro.commands.Eco;
+import thesugarchris.nitro.commands.Etcetera;
 import thesugarchris.nitro.commands.Mod;
 import thesugarchris.nitro.commands.Nickname;
 import thesugarchris.nitro.controllers.*;
@@ -49,6 +50,7 @@ public final class Nitro extends JavaPlugin {
 
         CommandRegistry commandRegistry = new CommandRegistry(this);
         commandRegistry.registerCommands(new Eco());
+        commandRegistry.registerCommands(new Etcetera());
         commandRegistry.registerCommands(new Mod());
         commandRegistry.registerCommands(new Nickname());
 

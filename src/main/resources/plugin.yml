@@ -8,5 +8,8 @@ commands:
   pay:
   nick:
   mute:
+  unmute:
   kick:
   ban:
+  top:
+  hat:

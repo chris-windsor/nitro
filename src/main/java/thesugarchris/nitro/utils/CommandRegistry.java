@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 public class CommandRegistry implements CommandExecutor {
     private final Plugin plugin;
@@ -76,6 +77,13 @@ public class CommandRegistry implements CommandExecutor {
             if (currentArg.endsWith("\"")) isBuildingArg = false;
             argIdx++;
         }
+        // TODO: this is a really bad fix
+        IntStream.range(0, properArgs.size()).forEach(idx -> {
+            String curArg = properArgs.get(idx);
+            if (curArg.startsWith("\"")) {
+                properArgs.set(idx, curArg.replace("\"", ""));
+            }
+        });
         return properArgs.toArray(String[]::new);
     }
 

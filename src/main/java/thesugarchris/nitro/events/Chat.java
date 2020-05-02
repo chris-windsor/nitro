@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import thesugarchris.nitro.controllers.PlayerDataController;
+import thesugarchris.nitro.controllers.ModController;
 import thesugarchris.nitro.utils.Text;
 
 public class Chat implements Listener {
@@ -12,7 +12,7 @@ public class Chat implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
 
-        if (PlayerDataController.getMutedPlayers().contains(p.getUniqueId())) {
+        if (ModController.isPlayerMuted(p)) {
             p.sendMessage(Text.createMsg("&cYou are currently muted"));
             e.setCancelled(true);
         }

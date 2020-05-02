@@ -44,12 +44,4 @@ public class PlayerDataController {
             }
         });
     }
-
-    public static void addMutedPlayer(Player p) {
-        mutedPlayers.add(p.getUniqueId());
-    }
-
-    public static List<UUID> getMutedPlayers() {
-        return mutedPlayers;
-    }
 }
