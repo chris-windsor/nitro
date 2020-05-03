@@ -1,10 +1,15 @@
 package thesugarchris.nitro.commands;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import thesugarchris.nitro.Nitro;
 import thesugarchris.nitro.controllers.EconomyController;
+import thesugarchris.nitro.utils.ItemBuilder;
 import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
+
+import java.util.UUID;
 
 public class Eco {
     @RegisterAsCommand(command = "balance <player?>")
@@ -83,6 +88,36 @@ public class Eco {
             p.sendMessage(Text.createMsg("&aSuccessfully sent &2$%,.0f &ato %s", amount, targetPlayer.getDisplayName()));
         } else {
             p.sendMessage(Text.createMsg("&cInsufficient funds in your account to pay %s&c $%,.0f", targetPlayer.getDisplayName(), amount));
+        }
+    }
+
+    @RegisterAsCommand(command = "withdraw <amount>")
+    public void onWithdraw(Player p, String[] args) {
+        Double amount = Double.valueOf(args[0]);
+
+        if (amount < 1) {
+            p.sendMessage(Text.createMsg("&cCannot withdraw a banknote with that value"));
+            return;
+        }
+
+        if (EconomyController.playerHasAmount(p, amount)) {
+            if (p.getInventory().firstEmpty() != -1) {
+                EconomyController.removeFromPlayerBalance(p, amount);
+
+                String banknoteId = UUID.randomUUID().toString();
+                ItemStack bankNote = new ItemBuilder(Material.PAPER)
+                        .setName(Text.createMsg("&aBanknote (&2&o$%,.0f&a)", amount))
+                        .addLore(Text.createMsg("&7%s", banknoteId))
+                        .toItemStack();
+                p.getInventory().addItem(bankNote);
+                EconomyController.addBanknote(banknoteId, amount);
+
+                p.sendMessage(Text.createMsg("&aAdded banknote with a value of &2$%,.0f &ato your inventory", amount));
+            } else {
+                p.sendMessage(Text.createMsg("&cCannot add banknote to your inventory because it is full"));
+            }
+        } else {
+            p.sendMessage(Text.createMsg("&cInsufficient funds in your account to withdraw $%,.0f", amount));
         }
     }
 }

@@ -9,10 +9,7 @@ import thesugarchris.nitro.commands.Etcetera;
 import thesugarchris.nitro.commands.Mod;
 import thesugarchris.nitro.commands.Nickname;
 import thesugarchris.nitro.controllers.*;
-import thesugarchris.nitro.events.Chat;
-import thesugarchris.nitro.events.Join;
-import thesugarchris.nitro.events.Leave;
-import thesugarchris.nitro.events.Prejoin;
+import thesugarchris.nitro.events.*;
 import thesugarchris.nitro.utils.*;
 
 import java.sql.SQLException;
@@ -63,10 +60,11 @@ public final class Nitro extends JavaPlugin {
         TabListController.updateAllPlayers();
         ScoreboardController.updateAllPlayers();
 
-        this.getServer().getPluginManager().registerEvents(new Prejoin(), this);
-        this.getServer().getPluginManager().registerEvents(new Join(), this);
-        this.getServer().getPluginManager().registerEvents(new Leave(), this);
-        this.getServer().getPluginManager().registerEvents(new Chat(), this);
+        getServer().getPluginManager().registerEvents(new Chat(), this);
+        getServer().getPluginManager().registerEvents(new Interact(), this);
+        getServer().getPluginManager().registerEvents(new Join(), this);
+        getServer().getPluginManager().registerEvents(new Leave(), this);
+        getServer().getPluginManager().registerEvents(new Prejoin(), this);
 
         // TODO: only update players when necessary, this is big waste of resources
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ScoreboardController::updateAllPlayers, 0L, 20L);

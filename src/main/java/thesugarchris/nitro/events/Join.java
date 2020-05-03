@@ -14,7 +14,8 @@ public class Join implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        e.setJoinMessage(Text.createMsg("&a[+] &r%s", ChatController.getNickname(p)));
+        String nickname = ChatController.getNickname(p);
+        e.setJoinMessage(Text.createMsg("&a[+] &r%s", nickname == null ? p.getName() : nickname));
 
         ChatController.updateNickname(p);
 
