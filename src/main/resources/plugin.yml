@@ -19,3 +19,4 @@ commands:
   homes:
   tpall:
   hg:
+  test:

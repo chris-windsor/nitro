@@ -1,11 +1,10 @@
 package thesugarchris.nitro.controllers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.util.Vector;
+import org.bukkit.metadata.FixedMetadataValue;
 import thesugarchris.nitro.Nitro;
 import thesugarchris.nitro.utils.ArrayUtils;
 import thesugarchris.nitro.utils.LocationUtils;
@@ -25,7 +24,7 @@ public class HologramController {
         public String id;
         public Location location;
         public List<String> lines;
-        public List<ArmorStand> armorStands = new ArrayList<>();;
+        public List<ArmorStand> armorStands = new ArrayList<>();
 
         public Hologram(String id, Location location, List<String> lines) {
             this.id = id;
@@ -35,9 +34,6 @@ public class HologramController {
     }
 
     public static void loadHolograms() {
-        holograms.values().forEach(hg -> hg.armorStands.forEach(Entity::remove));
-        holograms.clear();
-
         ResultSet hologramsResult = Nitro.getDatabase().query("SELECT * FROM holograms");
 
         while (true) {
@@ -62,6 +58,11 @@ public class HologramController {
         }
     }
 
+    public static void unloadHolograms() {
+        holograms.values().forEach(hg -> hg.armorStands.forEach(Entity::remove));
+        holograms.clear();
+    }
+
     private static void saveHologram(String id, Hologram hg) {
         String location = LocationUtils.locationToString(hg.location);
         String text = ArrayUtils.joinValues(hg.lines, "\n");
@@ -74,19 +75,16 @@ public class HologramController {
         hg.armorStands.forEach(Entity::remove);
         hg.armorStands.clear();
 
-        World mainWorld = Bukkit.getWorld("world");
-        Location hgLoc = hg.location;
-        Double[] pos = new Double[]{0d};
+        Location hgLoc = hg.location.clone();
+        World world = hgLoc.getWorld();
         hg.lines.forEach(line -> {
-            Nitro.log(pos[0] + "");
-            ArmorStand newArmorstand = mainWorld.spawn(hgLoc, ArmorStand.class);
+            ArmorStand newArmorstand = world.spawn(hgLoc.subtract(0, 0.24, 0), ArmorStand.class);
+            newArmorstand.setMetadata("hologram", new FixedMetadataValue(Nitro.getPlugin(), hg.id));
             newArmorstand.setCustomName(Text.createMsg(line));
             newArmorstand.setCustomNameVisible(true);
-            newArmorstand.setVisible(false);
             newArmorstand.setGravity(false);
             newArmorstand.setCollidable(false);
-            pos[0] += 0.25d;
-            newArmorstand.teleport(hgLoc.subtract(new Vector(0, pos[0], 0)));
+            newArmorstand.setVisible(false);
             hg.armorStands.add(newArmorstand);
         });
     }
@@ -127,7 +125,7 @@ public class HologramController {
     }
 
     public static void delete(String id) {
-        holograms.get(id).armorStands.forEach(Entity::remove);;
+        holograms.get(id).armorStands.forEach(Entity::remove);
         Nitro.getDatabase().update(String.format("DELETE FROM holograms WHERE id = '%s'", id));
     }
 }

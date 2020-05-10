@@ -5,6 +5,11 @@ import thesugarchris.nitro.controllers.HologramController;
 import thesugarchris.nitro.utils.RegisterAsCommand;
 
 public class Dev {
+    @RegisterAsCommand(command = "test")
+    public void onTest(Player p, String[] args) {
+        // placeholder command for quick tests
+    }
+
     @RegisterAsCommand(command = "hg create <id>")
     public void onHgCreate(Player p, String[] args) {
         HologramController.create(args[0], p.getLocation());

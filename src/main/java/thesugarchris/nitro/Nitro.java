@@ -68,6 +68,8 @@ public final class Nitro extends JavaPlugin {
     public void onDisable() {
         database.closeConnection();
 
+        HologramController.unloadHolograms();
+
         plugin = null;
     }
 }
