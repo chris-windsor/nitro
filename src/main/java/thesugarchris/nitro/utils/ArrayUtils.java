@@ -1,6 +1,7 @@
 package thesugarchris.nitro.utils;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 public class ArrayUtils {
@@ -10,6 +11,10 @@ public class ArrayUtils {
     }
 
     public static String joinValues(Set<String> strings, String glue) {
+        return joinValues(strings.toArray(String[]::new), glue);
+    }
+
+    public static String joinValues(List<String> strings, String glue) {
         return joinValues(strings.toArray(String[]::new), glue);
     }
 }

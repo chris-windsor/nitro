@@ -7,7 +7,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import thesugarchris.nitro.controllers.ModController;
 import thesugarchris.nitro.utils.Text;
 
-public class Chat implements Listener {
+public class ChatEvents implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();

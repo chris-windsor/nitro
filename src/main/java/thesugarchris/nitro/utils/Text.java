@@ -33,4 +33,8 @@ public class Text {
             return String.format("%.2f%s", amount / floorVal, fmtSymbol);
         }
     }
+
+    public static String stripLastChar(String str) {
+        return str.substring(0, str.length() - 2);
+    }
 }

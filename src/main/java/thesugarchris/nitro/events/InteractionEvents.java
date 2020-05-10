@@ -10,22 +10,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 import thesugarchris.nitro.controllers.EconomyController;
 import thesugarchris.nitro.utils.Text;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Interact implements Listener {
+public class InteractionEvents implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
+        if (e.getItem() == null) return;
+
         ItemStack item = e.getItem();
         ItemMeta itemMeta = item.getItemMeta();
-        String itemTitle = "";
-        List<String> itemLore = new ArrayList<>();
-        if (itemMeta != null) {
-            itemTitle = itemMeta.getDisplayName();
-            itemLore = itemMeta.getLore();
-        }
+        String itemTitle;
+        List<String> itemLore;
+        itemTitle = itemMeta.getDisplayName();
+        itemLore = itemMeta.getLore();
 
         if (ChatColor.stripColor(itemTitle).startsWith("Banknote")) {
             Double banknoteValue = EconomyController.removeBanknote(ChatColor.stripColor(itemLore.get(0)));

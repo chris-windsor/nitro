@@ -71,7 +71,7 @@ public class CommandRegistry implements CommandExecutor {
             String currentArg = args[argIdx];
             if (isBuildingArg) {
                 String previousArg = properArgs.get(properArgs.size() - 1);
-                properArgs.set(properArgs.size() - 1, previousArg + currentArg);
+                properArgs.set(properArgs.size() - 1, previousArg + " " + currentArg);
             } else properArgs.add(currentArg);
             if (currentArg.startsWith("\"")) isBuildingArg = true;
             if (currentArg.endsWith("\"")) isBuildingArg = false;
