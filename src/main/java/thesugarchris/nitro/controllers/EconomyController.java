@@ -5,11 +5,24 @@ import thesugarchris.nitro.Nitro;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.util.*;
 
 public class EconomyController {
     public static Double getPlayerBalance(Player p) {
         return PlayerDataController.balances.getOrDefault(p.getUniqueId(), 0d);
+    }
+
+    public static HashMap<UUID, Double> getTopBalances() {
+        List<Map.Entry<UUID, Double>> list = new LinkedList<>(PlayerDataController.balances.entrySet());
+
+        list.sort((o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
+
+        HashMap<UUID, Double> balances = new LinkedHashMap<>();
+        list = list.size() > 5 ? list.subList(0, 5) : list;
+        for (Map.Entry<UUID, Double> balance : list) {
+            balances.put(balance.getKey(), balance.getValue());
+        }
+        return balances;
     }
 
     public static boolean playerHasAmount(Player p, Double val) {

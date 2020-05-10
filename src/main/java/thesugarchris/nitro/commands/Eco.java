@@ -1,15 +1,18 @@
 package thesugarchris.nitro.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import thesugarchris.nitro.Nitro;
+import thesugarchris.nitro.controllers.ChatController;
 import thesugarchris.nitro.controllers.EconomyController;
 import thesugarchris.nitro.utils.ItemBuilder;
 import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Eco {
     @RegisterAsCommand(command = "balance <player?>")
@@ -28,6 +31,15 @@ public class Eco {
         }
         Double playerBalance = EconomyController.getPlayerBalance(playerToCheck);
         p.sendMessage(Text.createMsg("&aYour current balance is: &2$%,.0f", playerBalance));
+    }
+
+    @RegisterAsCommand(command = "balancetop")
+    public void onBalancetop(Player p, String[] args) {
+        HashMap<UUID, Double> topBalances = EconomyController.getTopBalances();
+        p.sendMessage(Text.createMsg("&6Top balances:"));
+        topBalances.forEach((pUuid, balance) -> {
+            p.sendMessage(Text.createMsg("&7%s &8-> &2$%s", ChatController.getNickname(pUuid), Text.formatMoney(balance)));
+        });
     }
 
     @RegisterAsCommand(command = "eco set <player> <amount>", permission = "eco.set")

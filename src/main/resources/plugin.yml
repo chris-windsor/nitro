@@ -4,19 +4,24 @@ main: thesugarchris.nitro.Nitro
 api-version: 1.13
 commands:
   balance:
-  eco:
-  pay:
-  nick:
-  mute:
-  unmute:
-  kick:
+  balancetop:
   ban:
-  top:
+  craft:
+  echest:
+  eco:
+  flyspeed:
   hat:
-  withdraw:
-  sethome:
+  hg:
   home:
   homes:
-  tpall:
-  hg:
+  kick:
+  mute:
+  nick:
+  nuke:
+  pay:
+  sethome:
   test:
+  top:
+  tpall:
+  unmute:
+  withdraw:

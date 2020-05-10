@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import thesugarchris.nitro.Nitro;
 import thesugarchris.nitro.utils.Text;
 
+import java.util.UUID;
+
 public class ChatController {
     public static void updateNickname(Player p) {
         String playerNickname = PlayerDataController.nicknames.get(p.getUniqueId());
@@ -24,5 +26,9 @@ public class ChatController {
 
     public static String getNickname(Player p) {
         return PlayerDataController.nicknames.get(p.getUniqueId());
+    }
+
+    public static String getNickname(UUID uuid) {
+        return PlayerDataController.nicknames.get(uuid);
     }
 }
