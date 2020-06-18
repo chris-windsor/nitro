@@ -24,6 +24,7 @@ public class CommandRegistry implements CommandExecutor {
     private final Map<String, RegisteredCommand> registeredCommandTable = new HashMap<>();
     private final Pattern cmdMatch = Pattern.compile("(\\w|\\s)+(?=<)?");
     private final Pattern optParamMatch = Pattern.compile("<\\w+\\?");
+
     public CommandRegistry(Plugin plugin) {
         this.plugin = plugin;
     }

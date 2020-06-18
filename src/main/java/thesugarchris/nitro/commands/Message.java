@@ -51,7 +51,8 @@ public class Message {
         if (lastMsgd.containsKey(sender.getUniqueId())) lastMsgd.replace(sender.getUniqueId(), receiver.getUniqueId());
         else lastMsgd.put(sender.getUniqueId(), receiver.getUniqueId());
 
-        if (lastMsgd.containsKey(receiver.getUniqueId())) lastMsgd.replace(receiver.getUniqueId(), sender.getUniqueId());
+        if (lastMsgd.containsKey(receiver.getUniqueId()))
+            lastMsgd.replace(receiver.getUniqueId(), sender.getUniqueId());
         else lastMsgd.put(receiver.getUniqueId(), sender.getUniqueId());
     }
 }

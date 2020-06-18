@@ -1,8 +1,6 @@
 package thesugarchris.nitro.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import thesugarchris.nitro.Nitro;
@@ -12,7 +10,8 @@ import thesugarchris.nitro.utils.ItemBuilder;
 import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Eco {
     @RegisterAsCommand(command = "balance <player?>")

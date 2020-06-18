@@ -21,19 +21,20 @@ public class InteractionEvents implements Listener {
 
         ItemStack item = e.getItem();
         ItemMeta itemMeta = item.getItemMeta();
-        String itemTitle;
-        List<String> itemLore;
-        itemTitle = itemMeta.getDisplayName();
-        itemLore = itemMeta.getLore();
+        if (itemMeta != null) {
+            String itemTitle = itemMeta.getDisplayName();
+            List<String> itemLore = itemMeta.getLore();
 
-        if (ChatColor.stripColor(itemTitle).startsWith("Banknote")) {
-            Double banknoteValue = EconomyController.removeBanknote(ChatColor.stripColor(itemLore.get(0)));
-            if (banknoteValue == 0d) {
-                p.sendMessage(Text.createMsg("&cInvalid banknote"));
-            } else {
-                p.getInventory().remove(item);
-                EconomyController.addToPlayerBalance(p, banknoteValue);
-                p.sendMessage(Text.createMsg("&aRedeemed banknote for &2$%,.0f", banknoteValue));
+            if (ChatColor.stripColor(itemTitle).startsWith("Banknote")) {
+                Double banknoteValue = EconomyController.removeBanknote(ChatColor.stripColor(itemLore.get(0)));
+                if (banknoteValue == 0d) {
+                    p.sendMessage(Text.createMsg("&cInvalid banknote"));
+                } else {
+                    e.setCancelled(true);
+                    p.getInventory().remove(item);
+                    EconomyController.addToPlayerBalance(p, banknoteValue);
+                    p.sendMessage(Text.createMsg("&aRedeemed banknote for &2$%,.0f", banknoteValue));
+                }
             }
         }
     }

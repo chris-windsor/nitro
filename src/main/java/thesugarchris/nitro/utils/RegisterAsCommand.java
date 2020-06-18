@@ -16,5 +16,6 @@ public @interface RegisterAsCommand {
 
     // rare use case properties
     int forcedMin() default 0;
+
     boolean allowManyParams() default false;
 }

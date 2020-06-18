@@ -55,7 +55,6 @@ public class Mod {
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         if (targetPlayer == null) {
             p.sendMessage(Text.createMsg("&cCannot ban an offline player"));
-            return;
         }
     }
 }

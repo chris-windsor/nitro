@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBuilder {
-    private ItemStack is;
+    private final ItemStack is;
 
     public ItemBuilder(Material m) {
         is = new ItemStack(m);

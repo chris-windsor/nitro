@@ -1,17 +1,11 @@
 package thesugarchris.nitro.commands;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
 import thesugarchris.nitro.utils.RegisterAsCommand;
 import thesugarchris.nitro.utils.Text;
 
@@ -81,9 +75,9 @@ public class Etcetera {
         Location pLoc = p.getLocation();
         int centerX = pLoc.getBlockX();
         int centerZ = pLoc.getBlockZ();
-        for (int i = centerX - radius * 4; i < centerX + radius * 4; i+=4) {
-            for (int j = centerZ - radius * 4; j < centerZ + radius * 4; j+=4) {
-                Location tntLoc = new Location(p.getWorld(), i, p.getLocation().getY() + 4, j);
+        for (int x = centerX - radius * 4; x < centerX + radius * 4; x += 4) {
+            for (int z = centerZ - radius * 4; z < centerZ + radius * 4; z += 4) {
+                Location tntLoc = new Location(p.getWorld(), x, p.getLocation().getY() + 4, z);
                 p.getWorld().spawn(tntLoc, TNTPrimed.class);
             }
         }

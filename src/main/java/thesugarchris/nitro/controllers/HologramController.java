@@ -20,19 +20,6 @@ import java.util.List;
 public class HologramController {
     private static final HashMap<String, Hologram> holograms = new HashMap<>();
 
-    final static class Hologram {
-        public String id;
-        public Location location;
-        public List<String> lines;
-        public List<ArmorStand> armorStands = new ArrayList<>();
-
-        public Hologram(String id, Location location, List<String> lines) {
-            this.id = id;
-            this.location = location;
-            this.lines = lines;
-        }
-    }
-
     public static void loadHolograms() {
         ResultSet hologramsResult = Nitro.getDatabase().query("SELECT * FROM holograms");
 
@@ -127,5 +114,18 @@ public class HologramController {
     public static void delete(String id) {
         holograms.get(id).armorStands.forEach(Entity::remove);
         Nitro.getDatabase().update(String.format("DELETE FROM holograms WHERE id = '%s'", id));
+    }
+
+    final static class Hologram {
+        public String id;
+        public Location location;
+        public List<String> lines;
+        public List<ArmorStand> armorStands = new ArrayList<>();
+
+        public Hologram(String id, Location location, List<String> lines) {
+            this.id = id;
+            this.location = location;
+            this.lines = lines;
+        }
     }
 }
