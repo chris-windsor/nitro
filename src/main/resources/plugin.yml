@@ -16,9 +16,11 @@ commands:
   homes:
   kick:
   mute:
+  msg:
   nick:
   nuke:
   pay:
+  r:
   sethome:
   test:
   top:

@@ -9,6 +9,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface RegisterAsCommand {
     String command();
+
     boolean disallowNonPlayer() default false;
+
     String permission() default "";
+
+    // rare use case properties
+    int forcedMin() default 0;
+    boolean allowManyParams() default false;
 }

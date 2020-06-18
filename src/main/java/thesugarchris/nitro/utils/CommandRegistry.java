@@ -22,13 +22,11 @@ import java.util.stream.IntStream;
 public class CommandRegistry implements CommandExecutor {
     private final Plugin plugin;
     private final Map<String, RegisteredCommand> registeredCommandTable = new HashMap<>();
-
+    private final Pattern cmdMatch = Pattern.compile("(\\w|\\s)+(?=<)?");
+    private final Pattern optParamMatch = Pattern.compile("<\\w+\\?");
     public CommandRegistry(Plugin plugin) {
         this.plugin = plugin;
     }
-
-    private final Pattern cmdMatch = Pattern.compile("(\\w|\\s)+(?=<)?");
-    private final Pattern optParamMatch = Pattern.compile("<\\w+\\?");
 
     public void registerCommands(Object object) {
         for (Method method : object.getClass().getMethods()) {
@@ -157,8 +155,14 @@ public class CommandRegistry implements CommandExecutor {
             this.method = method;
             this.instance = instance;
             this.annotation = annotation;
-            this.maxParams = params;
-            this.minParams = params - optParams;
+
+            if (annotation.forcedMin() != 0 && annotation.allowManyParams()) {
+                this.maxParams = 1000;
+                this.minParams = annotation.forcedMin();
+            } else {
+                this.maxParams = params;
+                this.minParams = params - optParams;
+            }
         }
     }
 }

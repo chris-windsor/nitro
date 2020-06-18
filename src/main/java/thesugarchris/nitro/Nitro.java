@@ -47,6 +47,7 @@ public final class Nitro extends JavaPlugin {
         commandRegistry.registerCommands(new Dev());
         commandRegistry.registerCommands(new Eco());
         commandRegistry.registerCommands(new Etcetera());
+        commandRegistry.registerCommands(new Message());
         commandRegistry.registerCommands(new Mod());
         commandRegistry.registerCommands(new Nickname());
         commandRegistry.registerCommands(new Teleport());

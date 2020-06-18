@@ -1,5 +1,6 @@
 package thesugarchris.nitro.controllers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import thesugarchris.nitro.Nitro;
 import thesugarchris.nitro.utils.Text;
@@ -25,10 +26,10 @@ public class ChatController {
     }
 
     public static String getNickname(Player p) {
-        return PlayerDataController.nicknames.get(p.getUniqueId());
+        return PlayerDataController.nicknames.getOrDefault(p.getUniqueId(), p.getDisplayName());
     }
 
     public static String getNickname(UUID uuid) {
-        return PlayerDataController.nicknames.get(uuid);
+        return PlayerDataController.nicknames.getOrDefault(uuid, Bukkit.getPlayer(uuid).getDisplayName());
     }
 }
